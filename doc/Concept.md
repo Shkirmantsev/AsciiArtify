@@ -21,6 +21,8 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-
 
  #### start cluster with minikube:
 
+ ![concept-minikube](./sources/concept-minikube.gif)
+
 ```shell
  minikube start
  ```
