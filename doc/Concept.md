@@ -34,7 +34,7 @@ kubectl get pods -A
 #### Start dashboard in other terminal window
 
 ```shell
-kubectl get pods -A
+minikube dashboard
 ```
 
 #### Deploying and Testing a Sample App
