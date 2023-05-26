@@ -109,3 +109,85 @@ kubectl delete deployment web
 minikube delete
 ```
 -----
+### Example of using Kind
+
+#### Install Kind
+```shell
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.19.0/kind-linux-amd64
+```
+
+```shell
+chmod +x ./kind
+```
+```shell
+sudo mv ./kind /usr/local/bin/kind
+```
+
+#### Creating a Cluster 
+```shell
+kind create cluster --name demo-app
+```
+
+#### Set the context to the Kind cluster
+```shell
+kubectl cluster-info --context kind-demo-app
+```
+#### See clusters:
+```shell
+kind get clusters
+```
+```shell
+kubectl cluster-info --context kind-demo-app
+```
+
+#### Limit resources:
+```
+kubectl create configmap kubelet-config --from-literal=kubelet-config.json='{"evictionHard": {"memory.available": "512Mi"}}' --namespace kube-system --dry-run=client -o yaml | kubectl apply -f -
+```
+```
+kubectl patch -n kube-system configmap kubelet-config --patch '{"data":{"evictionHard": "memory.available=512Mi"}}'
+```
+
+#### Create a deployment and expose it as a service
+```shell
+kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0 --context kind-demo-app
+```
+```shell
+kubectl expose deployment web --type=NodePort --port=8080
+```
+
+#### Verify the deployment and service:
+```shell
+kubectl get pods
+```
+```shell
+kubectl get service web
+```
+
+#### Access the service:
+```shell
+kubectl port-forward service/web 8080:8080
+```
+
+#### Test the service:
+```shell
+curl http://localhost:8080
+```
+
+#### Delete the deployment:
+```shell
+kubectl delete deployment web
+```
+
+#### Remove cluster:
+```shell
+kind delete cluster --name demo-app
+```
+
+#### Restore namespace:
+```shell
+kubectl delete namespace kube-system
+```
+```shell
+kubectl create namespace kube-system
+```
