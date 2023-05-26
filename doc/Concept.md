@@ -38,7 +38,7 @@ k3d is more limited when it comes to deploying it on a development machine. From
 | Implementation |  Description                                                              | advantages                                                             |disadvantages                      |
 |----------------|:-------------------------------------------------------------------------:|:-----------------------------------------------------------------------|:----------------------------------|
 |`minikube`      | works either on virtual machine or in a container runtime (podman/docker) | Universal, good for learning uses a lot of features from k8s, dashboard|demanding on resources, scalability is complex, cluster is without  config files, universal platform|
-| `kid`          | "kubernetes in docker", supports podman, works with real k8s clusters     | scalability: multiple server/nodes ,local development, k8s clusters, good for testing CI/CD pipelines | demanding on resources, more complex for local development, platform depend|
+| `kind`          | "kubernetes in docker", supports podman, works with real k8s clusters     | scalability: multiple server/nodes ,local development, k8s clusters, good for testing CI/CD pipelines | demanding on resources, more complex for local development, platform depend|
 | `k3d`          | resource optimised kubernetes, "all in one binary file", implementation of k3s interface| scalable, good with local development, optimal by resources  consuming, similiar with k8s, easy to install|not a real k8s cluster               |
 
 ### **Comclusions:**
