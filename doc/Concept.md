@@ -136,9 +136,6 @@ kubectl cluster-info --context kind-demo-app
 ```shell
 kind get clusters
 ```
-```shell
-kubectl cluster-info --context kind-demo-app
-```
 
 #### Limit resources:
 ```
@@ -182,12 +179,4 @@ kubectl delete deployment web
 #### Remove cluster:
 ```shell
 kind delete cluster --name demo-app
-```
-
-#### Restore namespace:
-```shell
-kubectl delete namespace kube-system
-```
-```shell
-kubectl create namespace kube-system
 ```
