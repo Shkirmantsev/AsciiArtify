@@ -111,6 +111,8 @@ minikube delete
 -----
 ### Example of using Kind
 
+ ![concept-minikube](./sources/concept-kind.gif)
+
 #### Install Kind
 ```shell
 [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.19.0/kind-linux-amd64
