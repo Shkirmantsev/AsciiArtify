@@ -186,7 +186,7 @@ kind delete cluster --name demo-app
 -----
 ### Example of using k3d
 
- ![concept-minikube](./sources/concept-k3d.gif)
+ ![concept-k3d](./sources/concept-k3d.gif)
 
 #### Install k3d
 
