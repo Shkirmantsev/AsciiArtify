@@ -38,8 +38,8 @@ k3d is more limited when it comes to deploying it on a development machine. From
 | Implementation |  Description                                                              | advantages                                                             |disadvantages                      |
 |----------------|:-------------------------------------------------------------------------:|:-----------------------------------------------------------------------|:----------------------------------|
 |`minikube`      | works either on virtual machine or in a container runtime (podman/docker) | Universal, good for learning uses a lot of features from k8s, dashboard|demanding on resources, scalability is complex, cluster is without  config files, universal platform|
-| `kind`          | "kubernetes in docker", supports podman, works with real k8s clusters     | scalability: multiple server/nodes ,local development, k8s clusters, good for testing CI/CD pipelines | demanding on resources, more complex for local development, platform depend|
-| `k3d`          | resource optimised kubernetes, "all in one binary file", implementation of k3s interface| scalable, good with local development, optimal by resources  consuming, similiar with k8s, easy to install|not a real k8s cluster               |
+| `kind`          | "kubernetes in docker", works with real k8s clusters     | scalability: multiple server/nodes ,local development, k8s clusters, good for testing CI/CD pipelines | demanding on resources, more complex for local development, platform depend, expiremental podman support|
+| `k3d`          | resource optimised kubernetes, "all in one binary file", implementation of k3s interface| scalable, good with local development, optimal by resources  consuming, similiar with k8s, easy to install|not a real k8s cluster, expiremental support of podman |
 
 ### **Comclusions:**
 
@@ -181,4 +181,98 @@ kubectl delete deployment web
 #### Remove cluster:
 ```shell
 kind delete cluster --name demo-app
+```
+
+-----
+### Example of using k3d
+
+#### Install k3d
+
+```shell
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+```
+
+#### Create cluster:
+
+```shell
+k3d cluster create demo-app --servers 1 --agents 3
+```
+
+#### setting namespace for default context:
+```shell
+kubectl config set-context --current --namespace kube-system
+```
+
+#### get Nodes:
+```shell
+kubectl get nodes
+```
+
+#### Create a deployment and expose it as a service
+```shell
+kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0 --context k3d-demo-app
+```
+```shell
+kubectl expose deployment web --type=NodePort --port=8080
+```
+
+#### Verify the deployment and service:
+```shell
+kubectl get pods
+```
+```shell
+kubectl get service web
+```
+
+#### Access the service:
+```shell
+kubectl port-forward service/web 8080:8080
+```
+
+#### Test the service:
+```shell
+curl http://localhost:8080
+```
+
+#### Delete the deployment:
+```shell
+kubectl delete deployment web
+```
+
+#### Remove cluster:
+```shell
+k3d cluster delete demo-app
+```
+
+### Using Podman
+
+[sources](https://k3d.io/v5.5.1/usage/advanced/podman/)
+
+[Install podman](https://podman.io/docs/installation)
+
+#### Install podman (Linux)
+```shell
+sudo apt-get -y install podman
+```
+
+#### Ensure the Podman system socket is available:
+```shell
+sudo systemctl enable --now podman.socket
+```
+
+#### Creating cluster with podman and kind (This works not properly):
+
+```shell
+export KIND_EXPERIMENTAL_PROVIDER=podman kind create cluster
+```
+
+That certain components of Kubernetes stack cannot be run in rootless mode yet. So even though we are using docker engine or podman in rootless mode, we cannot run kind in rootless mode. However we can launch cluster fine when running kind with sudo privileges:
+```shell
+kind delete cluster
+```
+```shell
+export KIND_EXPERIMENTAL_PROVIDER=podman kind create cluster
+```
+```shell
+sudo kind create cluster --name demo-app
 ```
