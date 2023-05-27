@@ -1,5 +1,9 @@
 # [Set up Argocd cluster](https://argo-cd.readthedocs.io/en/stable/getting_started/):
 -----
+## Demo
+
+ ![Install Argocd](./sources/poc-argocd.gif)
+
 ## Install k3d
 
 ```shell
@@ -31,6 +35,9 @@ kubectl get nodes
 ```
 ```shell
 kubectl get all -A
+```
+```shell
+kubectl get pods -A
 ```
 
 ## Expose port in argocd:
