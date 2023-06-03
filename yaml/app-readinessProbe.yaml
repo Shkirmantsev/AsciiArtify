@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-readinessprob
+spec:
+  containers:
+  - name: app
+    image: gcr.io/shkirmantsev/demo:v1.0.0
+    ports:
+    - containerPort: 8000
+      name: http
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8000
+      periodSeconds: 10
+      initialDelaySeconds: 5
+      failureThreshold: 3
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8000
+      periodSeconds: 10
+      initialDelaySeconds: 5
+      failureThreshold: 3
